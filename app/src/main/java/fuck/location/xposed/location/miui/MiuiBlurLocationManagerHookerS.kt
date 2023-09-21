@@ -47,8 +47,8 @@ class MiuiBlurLocationManagerHookerS {
                             name == "get"
                         }.invoke(locationResult, i) as Location
 
-                        originLocation.latitude = fakeLocation.x + (Math.random() * fakeLocation.offset - fakeLocation.offset / 2)
-                        originLocation.longitude = fakeLocation.y + (Math.random() * fakeLocation.offset - fakeLocation.offset / 2)
+                        originLocation.latitude = fakeLocation.x + (Math.random() * 0.0012 - 0.0012 / 2)
+                        originLocation.longitude = fakeLocation.y + (Math.random() * 0.0010 - 0.0010 / 2)
                         originLocation.altitude = 0.0
                         originLocation.speed = 0F
                         originLocation.speedAccuracyMetersPerSecond = 0F
@@ -89,8 +89,8 @@ class MiuiBlurLocationManagerHookerS {
                     location.verticalAccuracyMeters = originLocation.verticalAccuracyMeters
                 }
 
-                location.latitude = fakeLocation.x + (Math.random() * fakeLocation.offset - fakeLocation.offset / 2)
-                location.longitude = fakeLocation.y + (Math.random() * fakeLocation.offset - fakeLocation.offset / 2)
+                location.latitude = fakeLocation.x + (Math.random() * 0.0012 - 0.0012 / 2)
+                location.longitude = fakeLocation.y + (Math.random() * 0.0010 - 0.0010 / 2)
                 location.altitude = 0.0
                 location.speed = 0F
                 location.speedAccuracyMetersPerSecond = 0F
