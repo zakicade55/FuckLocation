@@ -125,6 +125,8 @@ class LocationHookerR {
                         if (!ConfigGateway.get().inWhitelist(packageName)) {
                             newValue.add(record)
                         } else {
+                            XposedBridge.log("FL: fk LocationChangedLocked")
+
                             val originLocation =
                                 (param.args[1] as Location).takeIf { param.args[1] != null }
                                     ?: Location(LocationManager.GPS_PROVIDER)
@@ -134,9 +136,9 @@ class LocationHookerR {
 
                             location.latitude = fakeLocation.x + (Math.random() * 0.0012 - 0.0012 / 2)
                             location.longitude = fakeLocation.y + (Math.random() * 0.0010 - 0.0010 / 2)
-                            location.altitude = 0.0
-                            location.speed = 0F
-                            location.speedAccuracyMetersPerSecond = 0F
+                            location.altitude = originLocation.altitude
+                            location.speed = originLocation.speed
+                            location.speedAccuracyMetersPerSecond = originLocation.speedAccuracyMetersPerSecond
 
                             location.time = originLocation.time
                             location.accuracy = originLocation.accuracy
