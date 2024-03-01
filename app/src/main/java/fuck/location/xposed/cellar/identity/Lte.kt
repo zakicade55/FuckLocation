@@ -41,18 +41,21 @@ class Lte {
             )
         }
 
+        val bands = intArrayOf(3)
+        val plmns = emptySet<String>()
+
         val customResult = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             constructor.newInstance(
-                ConfigGateway.get().readFakeLocation()!!.eci,  // ECI
-                ConfigGateway.get().readFakeLocation()!!.pci,  // Pci
-                ConfigGateway.get().readFakeLocation()!!.tac,  // Tac
-                ConfigGateway.get().readFakeLocation()!!.earfcn,  // Earfcn
-                cellIdentityLte.bands,
-                ConfigGateway.get().readFakeLocation()!!.bandwidth,  // bandwidth
-                cellIdentityLte.mccString,
-                cellIdentityLte.mncString,
-                cellIdentityLte.operatorAlphaLong,
-                cellIdentityLte.operatorAlphaShort,
+                150311218,//ConfigGateway.get().readFakeLocation()!!.eci,  // ECI
+                130,//ConfigGateway.get().readFakeLocation()!!.pci,  // Pci
+                62479,//ConfigGateway.get().readFakeLocation()!!.tac,  // Tac
+                1800,//ConfigGateway.get().readFakeLocation()!!.earfcn,  // Earfcn
+                bands,//cellIdentityLte.bands,
+                20,//ConfigGateway.get().readFakeLocation()!!.bandwidth,  // bandwidth
+                "460",//cellIdentityLte.mccString,
+                "01",//cellIdentityLte.mncString,
+                "CHN-UNICOM",//cellIdentityLte.operatorAlphaLong,
+                "UNICOM",//cellIdentityLte.operatorAlphaShort,
                 cellIdentityLte.additionalPlmns,
                 cellIdentityLte.closedSubscriberGroupInfo
             )
@@ -69,6 +72,8 @@ class Lte {
                 cellIdentityLte.operatorAlphaShort,
             )
         } as CellIdentityLte
+
+        XposedBridge.log("FL: [Cellar] additionalPlmns: $cellIdentityLte.additionalPlmns")
         XposedBridge.log("FL: [Cellar] Returning custom result: $customResult")
 
         return customResult
