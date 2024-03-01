@@ -68,9 +68,9 @@ class HookEntry : IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                         TelephonyRegistryHooker().hookListen(lpparam)
 
-                        // For Android 12 and MIUI, run this hook
+                        
                         when (Build.VERSION.SDK_INT) {
-                            Build.VERSION_CODES.S -> {
+                            Build.VERSION_CODES.S -> {  // For Android 12 and MIUI, run this hook
                                 if (Miui().isMIUI()) {
                                     MiuiBlurLocationManagerHookerS().hookGetBlurryLocationS(lpparam)
                                 } else if (Oplus().isOplus()) {
