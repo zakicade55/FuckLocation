@@ -83,7 +83,7 @@ class HookEntry : IXposedHookZygoteInit, IXposedHookLoadPackage {
                             }
                             Build.VERSION_CODES.R -> {  // Android 11 and MIUI
                                 if (Miui().isMIUI()) {
-                                    MiuiBlurLocationManagerHookerR().hookGetBlurryLocation(lpparam)
+                                    //MiuiBlurLocationManagerHookerR().hookGetBlurryLocation(lpparam)
                                 }
 
                                 LocationHookerR().hookLastLocation(lpparam)
