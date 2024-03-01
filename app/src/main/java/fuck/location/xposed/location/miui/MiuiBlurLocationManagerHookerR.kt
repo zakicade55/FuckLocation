@@ -33,6 +33,7 @@ class MiuiBlurLocationManagerHookerR {
             }
 
             Build.VERSION_CODES.R -> {
+                XposedBridge.log("FL: [Shaomi R] in getBlurryLocation!")
                 clazz =
                     lpparam.classLoader.loadClass("com.android.server.location.MiuiBlurLocationManager")
             }
