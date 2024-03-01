@@ -36,18 +36,18 @@ class WLANHooker {
                                 XposedBridge.log("FL: In getScanResults with caller: $packageName")
 
                                 if (ConfigGateway.get().inWhitelist(packageName)) {
-                                    XposedBridge.log("FL: in whitelist! Return custom WiFi information")
+                                    XposedBridge.log("FL: in whitelist! Return empty list")
 
                                     val customResult = ScanResult()
-                                    customResult.BSSID = ""
-                                    customResult.SSID = "AndroidAP"
-                                    customResult.capabilities = "WPA-2"
-                                    customResult.level = -1
+                                    //customResult.BSSID = ""
+                                    //customResult.SSID = "AndroidAP"
+                                    //customResult.capabilities = "WPA-2"
+                                    //customResult.level = -1
 
                                     val result: List<ScanResult> = listOf()
                                     param.result = result
 
-                                    XposedBridge.log("FL: BSSID: ${customResult.BSSID}, SSID: ${customResult.SSID}")
+                                    //XposedBridge.log("FL: WiFi Scan, Return empty list")
                                 }
                             }
                         }
@@ -60,17 +60,17 @@ class WLANHooker {
                                 XposedBridge.log("FL: In getConnectionInfo with caller: $packageName")
 
                                 if (ConfigGateway.get().inWhitelist(packageName)) {
-                                    XposedBridge.log("FL: in whitelist! Return custom WiFi information")
+                                    XposedBridge.log("FL: in whitelist! Return empty list")
 
-                                    val customResult = WifiInfo.Builder()
-                                        .setBssid("")
-                                        .setSsid("Android-AP".toByteArray())
-                                        .setRssi(-1)
-                                        .setNetworkId(0)
-                                        .build()
+                                    //val customResult = WifiInfo.Builder()
+                                        //.setBssid("")
+                                        //.setSsid("".toByteArray())
+                                        //.setRssi(-1)
+                                        //.setNetworkId(0)
+                                        //.build()
 
-                                    param.result = customResult
-                                    XposedBridge.log("FL: BSSID: ${customResult.bssid}, SSID: ${customResult.ssid}")
+                                    param.result = null
+                                    //XposedBridge.log("FL: BSSID: ${customResult.bssid}, SSID: ${customResult.ssid}")
                                 }
                             }
                         }

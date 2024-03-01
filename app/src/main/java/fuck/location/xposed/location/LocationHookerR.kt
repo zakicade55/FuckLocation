@@ -16,28 +16,38 @@ import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 class LocationHookerR {
     @SuppressLint("PrivateApi")
     @ExperimentalStdlibApi
-    fun hookLastLocation(lpparam: XC_LoadPackage.LoadPackageParam) {
+    fun hookLastLocation(lpparam: XC_LoadPackage.LoadPackageParam) 
+    {
         val clazz: Class<*> =
             lpparam.classLoader.loadClass("com.android.server.location.LocationManagerService")
 
-        findAllMethods(clazz) {
+        findAllMethods(clazz) 
+        {
             name == "getLastLocation" && isPublic
-        }.hookMethod {
-            after {
+        }
+        .hookMethod 
+        {
+            after 
+            {
                 val packageName = ConfigGateway.get().callerIdentityToPackageName(it.args[1])
                 XposedBridge.log("FL: in getLastLocation! Caller package name: $packageName")
 
-                if (ConfigGateway.get().inWhitelist(packageName)) {
+                if (ConfigGateway.get().inWhitelist(packageName)) 
+                {
                     XposedBridge.log("FL: in whitelist! Return custom location")
                     val fakeLocation = ConfigGateway.get().readFakeLocation()
 
                     lateinit var location: Location
                     lateinit var originLocation: Location
 
-                    if (it.result == null) {
+                    if (it.result == null) 
+                    {
+                        XposedBridge.log("FL: ****it.result == null")
                         location = Location(LocationManager.GPS_PROVIDER)
                         location.time = System.currentTimeMillis() - (100..10000).random()
-                    } else {
+                    } 
+                    else 
+                    {
                         originLocation = it.result as Location
                         location = Location(originLocation.provider)
 
@@ -47,35 +57,44 @@ class LocationHookerR {
                         location.bearingAccuracyDegrees = originLocation.bearingAccuracyDegrees
                         location.elapsedRealtimeNanos = originLocation.elapsedRealtimeNanos
                         location.verticalAccuracyMeters = originLocation.verticalAccuracyMeters
+                        location.altitude = originLocation.altitude
+                        location.speed = originLocation.speed
+                        location.speedAccuracyMetersPerSecond = originLocation.speedAccuracyMetersPerSecond
                     }
 
                     location.latitude = fakeLocation.x + (Math.random() * 0.0012 - 0.0012 / 2)
                     location.longitude = fakeLocation.y + (Math.random() * 0.0010 - 0.0010 / 2)
-                    location.altitude = 0.0
-                    location.speed = 0F
-                    location.speedAccuracyMetersPerSecond = 0F
-
-                    try {
-                        HiddenApiBypass.invoke(
+                    
+                    try 
+                    {
+                        HiddenApiBypass.invoke
+                        (
                             location.javaClass,
                             location,
                             "setIsFromMockProvider",
                             false
                         )
-                    } catch (e: Exception) {
+                    } 
+                    catch (e: Exception) 
+                    {
                         XposedBridge.log("FL: Not possible to mock (R)! $e")
                     }
 
-                    XposedBridge.log("FL: x: ${location.latitude}, y: ${location.longitude}")
+                    XposedBridge.log("FL: x: ${location.latitude}, y: ${location.longitude}, z:${location.altitude}")
                     it.result = location
                 }
             }
         }
 
-        findAllMethods(clazz) {
+        findAllMethods(clazz) 
+        {
             name == "getCurrentLocation" && isPublic
-        }.hookMethod {
-            after { param ->
+        }
+        .hookMethod 
+        {
+            after 
+            { 
+                param ->
                 val packageName = ConfigGateway.get().callerIdentityToPackageName(param.args[2])
                 XposedBridge.log("FL: in getCurrentLocation! Caller package name: $packageName")
 
